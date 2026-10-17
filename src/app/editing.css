@@ -1,0 +1,113 @@
+/* Shared, non-destructive image composition inside the existing templates. */
+.editor-page .file-input { position:fixed; top:0; left:0 }
+.framed-image { position:relative; width:100%; height:100%; overflow:hidden }
+.framed-image>img { position:absolute; max-width:none; max-height:none; display:block; user-select:none; pointer-events:none }
+.framed-image.is-editable { cursor:grab; touch-action:none; outline-offset:4px }
+.framed-image.is-dragging { cursor:grabbing }
+.framed-image.is-editable:focus-visible { outline:2px solid #233ef0 }
+.framing-grid { position:absolute; inset:0; pointer-events:none; opacity:0; background:linear-gradient(90deg,transparent 33.1%,#fff9 33.2%,#fff9 33.5%,transparent 33.6%,transparent 66.4%,#fff9 66.5%,#fff9 66.8%,transparent 66.9%),linear-gradient(transparent 33.1%,#fff9 33.2%,#fff9 33.5%,transparent 33.6%,transparent 66.4%,#fff9 66.5%,#fff9 66.8%,transparent 66.9%); transition:opacity .15s }
+.is-dragging>.framing-grid,.is-editable:focus-visible>.framing-grid { opacity:1 }
+.hero-image-editor { margin:18px 0 20px; border-top:1px solid #17191425; padding-top:20px }
+.framing-toolbar { display:flex; justify-content:space-between; gap:12px; align-items:center; font-size:12px; font-weight:700 }
+.framing-toolbar .segmented button { font-size:11px; min-height:36px; padding:6px 12px }
+.framing-toolbar+.field-help { margin:14px 0 18px }
+.framing-fit { display:flex; margin-bottom:14px }
+.framing-fit>button { flex:1; font-size:12px; min-height:40px }
+.framing-stage-wrap { display:flex; justify-content:center; margin-bottom:22px; padding:12px; border:1px solid #17191430; background:#eae7dc }
+.framing-stage { flex-shrink:0; height:auto; max-width:100%; background-color:#f5f2e9; background-image:linear-gradient(45deg,#e6e1d3 25%,transparent 25%),linear-gradient(-45deg,#e6e1d3 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e6e1d3 75%),linear-gradient(-45deg,transparent 75%,#e6e1d3 75%); background-size:20px 20px; background-position:0 0,0 10px,10px -10px,-10px 0 }
+.copy-controls { border-top:1px solid #17191425; margin:28px 0 14px; padding-top:8px }
+.copy-controls>summary { display:flex; justify-content:space-between; align-items:center; min-height:48px; font-weight:700; font-size:13px; cursor:pointer; list-style:none }
+.copy-controls>summary::-webkit-details-marker { display:none }
+.copy-controls[open]>summary>span { transform:rotate(45deg) }
+.copy-controls>summary>span { font-size:20px; font-weight:400; transition:transform .15s }
+.copy-control { padding:18px 0; border-top:1px solid #17191418 }
+.copy-control>.field-label { margin-bottom:14px }
+.copy-control>.quiet-button { margin:0 }
+.interest-upload { margin:12px 0 15px; min-height:110px }
+.interest-detail-image { display:block; width:100%; max-height:360px; object-fit:contain; margin:0 0 26px; background:#00000008 }
+.profile-page { container-type:inline-size }
+.profile-page h2,.profile-page h3,.profile-page .gallery-heading>p,.profile-page .portrait-caption { overflow-wrap:anywhere }
+.profile-page .profile-nav-links a { max-width:13ch; overflow:hidden; white-space:nowrap; text-overflow:ellipsis }
+.hero-note,.editorial-handnote,.variant-handnote,.portrait-caption,.gallery-empty>span,.profile-contact>div>p { white-space:pre-line }
+.hero-note { width:auto; max-width:180px; overflow-wrap:anywhere }
+.variant-handnote { position:absolute; bottom:25px; left:7%; max-width:220px; font:italic 17px/1.6 Georgia,serif; z-index:4; overflow-wrap:anywhere }
+.template-cyber .variant-handnote { color:var(--acid); font:12px/1.8 Consolas,monospace; letter-spacing:1px }
+.profile-page .portrait-caption.is-custom { display:block; max-width:85%; font-size:clamp(16px,2vw,28px) }
+.profile-page .gallery-heading>p { max-width:240px; flex-shrink:1 }
+.profile-page .gallery-heading>h2 { min-width:0 }
+.profile-page .hero-photo { background:color-mix(in srgb,var(--acid) 25%,#f4f1e8); --photo-width:53cqw }
+.template-minimal .hero-photo { --photo-width:43cqw }
+.template-cyber .hero-photo { --photo-width:44cqw }
+.template-editorial .hero-photo { --photo-width:52cqw }
+@media(min-width:701px) {
+  .profile-page.adaptive-photo-desktop .hero-photo { height:clamp(200px,calc(var(--photo-width) / var(--photo-ratio-desktop)),570px) }
+  .template-y2k .hero-photo { right:calc(5% + var(--hero-offset)); transform:rotate(3deg) scale(var(--hero-scale)) }
+  .template-minimal .hero-photo { right:calc(7% + var(--hero-offset)) }
+  .template-cyber .hero-photo,.template-editorial .hero-photo { right:calc(5% + var(--hero-offset)) }
+}
+@media(max-width:700px) {
+  .profile-page .hero-cutout { transform:scale(var(--hero-mobile-scale)); right:calc(-40% + var(--hero-mobile-offset)) }
+  .template-cyber .hero-cutout { right:calc(-44% + var(--hero-mobile-offset)) }
+  .template-minimal .hero-cutout { right:calc(-36% + var(--hero-mobile-offset)) }
+  .profile-page .hero-photo { right:calc(24px + var(--hero-mobile-offset)); transform:scale(var(--hero-mobile-scale)) }
+  .template-y2k .hero-photo { transform:rotate(2deg) scale(var(--hero-mobile-scale)) }
+  .profile-page.adaptive-photo-mobile { --photo-height:clamp(180px,calc((100cqw - 48px) / var(--photo-ratio-mobile)),500px) }
+  .profile-page.adaptive-photo-mobile:not(.is-empty) .profile-hero { height:auto; padding-bottom:35px }
+  .profile-page.adaptive-photo-mobile:not(.is-empty) .hero-copy { position:relative; top:auto; left:auto; bottom:auto; margin:0 24px; width:calc(100% - 48px); max-width:none }
+  .template-y2k.adaptive-photo-mobile .hero-copy { padding-top:100px }
+  .template-editorial.adaptive-photo-mobile .hero-copy { padding-top:145px }
+  .profile-page.adaptive-photo-mobile .hero-photo { position:relative; height:var(--photo-height); top:auto; bottom:auto; left:calc(-1 * var(--hero-mobile-offset)); right:auto; margin:30px 24px 0 }
+  .profile-page.adaptive-photo-mobile .hero-note,.profile-page.adaptive-photo-mobile .editorial-handnote,.profile-page.adaptive-photo-mobile .variant-handnote { display:block; position:relative; top:auto; bottom:auto; left:auto; right:auto; width:fit-content; max-width:calc(100% - 48px); margin:20px 24px 0 auto; transform:none }
+  .profile-page .gallery-heading>p { max-width:38%; font-size:12px; line-height:1.6 }
+  .profile-page .hero-note { display:block; bottom:22px; right:22px; max-width:110px; font-size:13px }
+  .profile-page.is-empty .hero-note { display:none }
+  .profile-page .variant-handnote { left:24px; bottom:18px; max-width:140px; font-size:12px }
+  .interest-detail-image { max-height:280px }
+}
+@media(prefers-reduced-motion:reduce) { .framing-grid,.copy-controls>summary>span { transition:none } }
+
+/* The avatar keeps one square crop in every template and at every screen size. */
+.avatar-image-editor { margin:18px 0 }
+.avatar-crop-stage { width:min(100%,250px); aspect-ratio:1 }
+.profile-page .about-identity-card { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:24px; padding:24px; background:var(--blue); color:var(--on-blue); min-height:200px }
+.about-identity-copy { min-width:0 }
+.about-identity-copy>strong { display:block; font-family:var(--font-name-zh,var(--font-content)); font-size:clamp(24px,3cqw,42px); font-weight:850; line-height:1.2; overflow-wrap:anywhere }
+.about-identity-copy>p { margin:16px 0 0; font-size:12px; line-height:1.8; white-space:pre-line; overflow-wrap:anywhere }
+.about-identity-card:not(:has(.about-avatar)) { grid-template-columns:1fr }
+.about-avatar { position:relative; width:100%; max-width:180px; aspect-ratio:1; justify-self:end; overflow:hidden; background:color-mix(in srgb,currentColor 8%,transparent) }
+.profile-page .about-avatar>.framed-image,.profile-page .about-avatar>.media-art { position:absolute; inset:0; width:100%; height:100%; border-radius:0 }
+.template-minimal .about-identity-card { background:var(--acid); color:var(--on-acid); border-radius:3px }
+.template-cyber .about-identity-card { background:#10212b; color:var(--acid) }
+.template-editorial .about-identity-card { background:color-mix(in srgb,var(--blue) 9%,var(--acid)); color:var(--blue); border:1px solid #27221c40 }
+
+/* Natural gallery height keeps the complete original visible, including on hover. */
+.profile-page .gallery-grid .gallery-image>.media-art.natural-art { height:auto; aspect-ratio:auto }
+.media-art.natural-art>img { position:static; width:100%; height:auto; object-fit:contain; display:block }
+.profile-page .gallery-image:hover>.media-art.natural-art>img { transform:none }
+.template-cyber .gallery-image:has(>.natural-art) { clip-path:none }
+.gallery-editor-item>img { object-fit:contain; background:#17191408 }
+.atlas-tile { position:relative; width:100%; height:100%; overflow:hidden; flex-shrink:0 }
+.atlas-tile>img { position:absolute; top:0; width:300%; height:100%; max-width:none; display:block; object-fit:cover }
+.media-art.contain-art { display:flex; align-items:center; justify-content:center }
+.media-art.contain-art>img { object-fit:contain; object-position:center }
+.media-art.contain-art .atlas-tile>img { object-fit:fill }
+
+/* Keep the image and all controls inside the dynamic viewport and safe areas. */
+.lightbox { display:grid; grid-template-columns:44px minmax(0,760px) 44px; grid-template-rows:minmax(0,1fr); justify-content:center; gap:20px; padding: max(64px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left)); height:100%; height:100dvh }
+.lightbox figure { grid-column:2; grid-row:1; display:grid; grid-template-rows:minmax(0,1fr) auto; gap:16px; width:100%; height:min(780px,100%); min-width:0; min-height:0 }
+.lightbox figure .media-art { height:100%; min-height:0; background:transparent }
+.lightbox figcaption { padding:0; gap:16px; font-size:12px; line-height:1.6; max-height:20dvh; overflow:auto }
+.lightbox figcaption>span:first-child { min-width:0; overflow-wrap:anywhere }
+.lightbox figcaption>span:last-child { flex-shrink:0 }
+.lightbox-prev { grid-column:1; grid-row:1 }
+.lightbox-next { grid-column:3; grid-row:1 }
+.lightbox-close { top:max(12px,env(safe-area-inset-top)); right:max(12px,env(safe-area-inset-right)) }
+.lightbox-prev,.lightbox-next { min-width:44px; min-height:44px }
+@media(max-width:700px) {
+  .profile-page .about-identity-card { padding:18px; gap:18px; min-height:180px }
+  .about-identity-copy>strong { font-size:clamp(24px,8cqw,34px) }
+  .about-identity-copy>p { margin-top:12px; font-size:11px }
+  .lightbox { grid-template-columns:44px minmax(0,1fr) 44px; grid-template-rows:minmax(0,1fr) 44px; gap:16px; padding-left:max(16px,env(safe-area-inset-left)); padding-right:max(16px,env(safe-area-inset-right)) }
+  .lightbox figure { grid-column:1 / -1; height:100% }
+  .lightbox-prev,.lightbox-next { grid-row:2; font-size:24px }
+}

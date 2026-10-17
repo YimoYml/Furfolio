@@ -1,0 +1,31 @@
+node_modules/
+dist/
+work/
+.wrangler/
+.dev.vars
+.dev.vars.*
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+
+# Local credentials, caches, and exported review/test artifacts.
+.cache/
+coverage/
+*.log
+*.pem
+*.p12
+*.pfx
+.DS_Store
+Thumbs.db
+Desktop.ini
+video/out/
+video/build/
+
+# Keep the database setup guide and migrations, not live test reports,
+# screenshots, downloads, or rendered videos.
+outputs/*
+!outputs/cloud-setup/
+outputs/cloud-setup/*
+!outputs/cloud-setup/*.sql
+!outputs/cloud-setup/README.md

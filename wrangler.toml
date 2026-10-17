@@ -1,0 +1,12 @@
+name = "furfolio"
+compatibility_date = "2026-10-10"
+pages_build_output_dir = "./dist"
+send_metrics = false
+
+# Public connection settings only. Private keys stay in Pages encrypted Secrets.
+[vars]
+SUPABASE_URL = "https://dtftipcvgznnnrbjrkea.supabase.co"
+SUPABASE_PUBLISHABLE_KEY = "sb_publishable_2G5A4Ui11lybeMsHNxAd5A_kUpBaPm6"
+CLOUDINARY_CLOUD_NAME = "jcirypaz"
+CLOUDINARY_API_KEY = "181121348376371"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFTkAsjukKRMqDTq"

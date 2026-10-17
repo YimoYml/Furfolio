@@ -1,0 +1,33 @@
+/* Name choices override template typography while leaving its geometry intact. */
+.profile-page .hero-lettering { font-family:var(--font-name-en) }
+.profile-page[data-name-font-en]:not([data-name-font-en="template"]) .hero-lettering,
+.profile-page[data-name-font-en]:not([data-name-font-en="template"]) .profile-mark { font-family:var(--font-name-en); letter-spacing:-.055em }
+.profile-page[data-name-font-zh]:not([data-name-font-zh="template"]) .hero-native-name { font-family:var(--font-name-zh); letter-spacing:-.025em }
+.profile-page[data-name-font-zh="wenkai"] .hero-native-name,
+.profile-page[data-name-font-zh="playful"] .hero-native-name { font-weight:400 }
+.profile-page[data-name-font-en="mono"] .hero-lettering { font-weight:700 }
+
+.profile-page.font-editorial .paper-section h2,.profile-page.font-editorial h3,
+.profile-page.font-editorial .story-line,
+.profile-page.font-editorial .hero-tagline,
+.profile-page.font-editorial .interest-row p,
+.profile-page.font-editorial .gallery-caption,
+.profile-page.font-editorial .contact-links { font-family:var(--font-content) }
+.profile-page.font-warm,.profile-page.font-rounded { font-family:var(--font-content) }
+.profile-page.font-warm .paper-section h2,.profile-page.font-warm h3,
+.profile-page.font-warm .story-line,.profile-page.font-warm .hero-tagline,
+.profile-page.font-warm .gallery-caption,.profile-page.font-warm .contact-links,
+.profile-page.font-rounded .paper-section h2,.profile-page.font-rounded h3,
+.profile-page.font-rounded .story-line,.profile-page.font-rounded .hero-tagline,
+.profile-page.font-rounded .gallery-caption,.profile-page.font-rounded .contact-links { font-family:var(--font-content) }
+.profile-page.font-warm .story-line,.profile-page.font-warm h2,.profile-page.font-warm h3 { font-weight:400 }
+.interest-dialog.font-warm .interest-panel,.interest-dialog.font-rounded .interest-panel,
+.interest-dialog.font-editorial .interest-panel { font-family:var(--font-content) }
+.interest-dialog.font-warm h2,.interest-dialog.font-rounded h2,
+.interest-dialog.font-editorial h2 { font-family:var(--font-content) }
+
+.name-font-controls { margin-top:8px }
+.name-font-sample { display:flex; align-items:baseline; flex-wrap:wrap; gap:10px 18px; padding:19px 17px; margin:0 0 12px; background:#eeece3; border-bottom:1px solid #17191425; color:#171914 }
+.name-font-sample>span { font-size:28px; line-height:1.35; overflow-wrap:anywhere; max-width:100%; font-weight:400 }
+.name-font-sample>span+span { font-size:24px }
+.name-font-controls>.field-help { margin-bottom:24px }
